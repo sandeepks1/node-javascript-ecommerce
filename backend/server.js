@@ -36,7 +36,7 @@ app.get('/api/paypal/clientId', (req, res) => {
 app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 app.use(express.static(path.join(__dirname, '/../frontend')));
 app.get('*', (req, res) => {
-    const userCookies = req.cookies;
+    const userCookies = res.cookies;
   console.log(userCookies)
   console.log("sandeep");
   res.sendFile(path.join(__dirname, '/../frontend/index.html'));
