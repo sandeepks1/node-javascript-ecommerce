@@ -8,6 +8,7 @@ import userRouter from './routers/userRouter';
 import orderRouter from './routers/orderRouter';
 import productRouter from './routers/productRouter';
 import uploadRouter from './routers/uploadRouter';
+const cookieParser = require('cookie-parser');
 
 mongoose
   .connect(config.MONGODB_URL, {
@@ -23,6 +24,7 @@ mongoose
   });
 const app = express();
 app.use(cors());
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use('/api/uploads', uploadRouter);
 app.use('/api/users', userRouter);
@@ -34,7 +36,11 @@ app.get('/api/paypal/clientId', (req, res) => {
 app.use('/uploads', express.static(path.join(__dirname, '/../uploads')));
 app.use(express.static(path.join(__dirname, '/../frontend')));
 app.get('*', (req, res) => {
+    const userCookies = req.cookies;
+  console.log(userCookies)
+  console.log("sandeep");
   res.sendFile(path.join(__dirname, '/../frontend/index.html'));
+  
 });
 app.use((err, req, res, next) => {
   const status = err.name && err.name === 'ValidationError' ? 400 : 500;
